@@ -30,34 +30,61 @@ const Contact = () => {
     });
   };
 
+  const handleCardClick = (type: string) => {
+    switch (type) {
+      case 'phone':
+        window.open('tel:+1234567890', '_self');
+        break;
+      case 'email':
+        window.open('mailto:info@physioheal.com?subject=Physiotherapy Inquiry&body=Hello, I would like to inquire about your services.', '_self');
+        break;
+      case 'location':
+        window.open('https://maps.google.com?q=123+Health+Street,+Medical+District,+New+York,+NY+10001', '_blank');
+        break;
+      case 'emergency':
+        window.open('tel:+1234567891', '_self');
+        break;
+      default:
+        break;
+    }
+  };
+
   const contactInfo = [
     {
       icon: MapPin,
       title: "Visit Our Clinic",
       details: ["123 Health Street", "Medical District", "New York, NY 10001"],
       color: "text-physio-blue",
-      bgColor: "bg-physio-blue/10"
+      bgColor: "bg-physio-blue/10",
+      type: "location",
+      action: "Get Directions"
     },
     {
       icon: Phone,
       title: "Call Us",
       details: ["(123) 456-7890", "Emergency: (123) 456-7891"],
       color: "text-physio-green",
-      bgColor: "bg-physio-green/10"
+      bgColor: "bg-physio-green/10",
+      type: "phone",
+      action: "Call Now"
     },
     {
       icon: Mail,
       title: "Email Us",
       details: ["info@physioheal.com", "appointments@physioheal.com"],
       color: "text-physio-teal",
-      bgColor: "bg-physio-teal/10"
+      bgColor: "bg-physio-teal/10",
+      type: "email",
+      action: "Send Email"
     },
     {
       icon: Clock,
       title: "Business Hours",
       details: ["Mon-Fri: 8:00 AM - 8:00 PM", "Sat-Sun: 9:00 AM - 5:00 PM"],
       color: "text-physio-blue",
-      bgColor: "bg-physio-blue/10"
+      bgColor: "bg-physio-blue/10",
+      type: "emergency",
+      action: "Emergency Call"
     }
   ];
 
@@ -80,17 +107,26 @@ const Contact = () => {
             {/* Contact Information */}
             <div className="lg:col-span-1 space-y-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               {contactInfo.map((info, index) => (
-                <Card key={info.title} className="border-0 shadow-lg hover:shadow-2xl transition-all duration-300 group transform hover:scale-105 hover:-translate-y-2">
+                <Card 
+                  key={info.title} 
+                  className="border-0 shadow-lg hover:shadow-2xl transition-all duration-300 group transform hover:scale-105 hover:-translate-y-2 cursor-pointer"
+                  onClick={() => handleCardClick(info.type)}
+                >
                   <CardContent className="p-6">
                     <div className="flex items-start space-x-4">
                       <div className={`w-12 h-12 ${info.bgColor} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                         <info.icon className={`${info.color} w-6 h-6 group-hover:animate-pulse`} />
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-physio-blue transition-colors duration-300">{info.title}</h3>
                         {info.details.map((detail, idx) => (
                           <p key={idx} className="text-gray-600 text-sm hover:text-gray-800 transition-colors duration-300">{detail}</p>
                         ))}
+                        <div className="mt-3">
+                          <span className="text-xs text-physio-blue font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            Click to {info.action}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -98,7 +134,7 @@ const Contact = () => {
               ))}
 
               {/* Quick Book Button */}
-              <Card className="border-0 shadow-lg hover:shadow-2xl transition-all duration-300 group transform hover:scale-105 hover:-translate-y-2 bg-gradient-physio">
+              <Card className="border-0 shadow-lg hover:shadow-2xl transition-all duration-300 group transform hover:scale-105 hover:-translate-y-2 bg-gradient-physio cursor-pointer">
                 <CardContent className="p-6 text-center">
                   <h3 className="font-semibold text-white mb-2">Need Immediate Care?</h3>
                   <p className="text-white/90 text-sm mb-4">Book your appointment in under 2 minutes</p>
@@ -227,6 +263,7 @@ const Contact = () => {
                   <Button 
                     variant="outline" 
                     className="mt-4 hover:bg-physio-blue hover:text-white transition-all duration-300"
+                    onClick={() => window.open('https://maps.google.com?q=123+Health+Street,+Medical+District,+New+York,+NY+10001', '_blank')}
                   >
                     Get Directions
                   </Button>
