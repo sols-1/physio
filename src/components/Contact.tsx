@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,9 +5,13 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import BookingModal from './BookingModal';
+import { saveContactForm } from '@/services/firebaseService';
+import { useToast } from '@/hooks/use-toast';
 
 const Contact = () => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,10 +20,36 @@ const Contact = () => {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission here
+    setIsLoading(true);
+    
+    try {
+      await saveContactForm(formData);
+      console.log('Contact form submitted:', formData);
+      toast({
+        title: "Message Sent!",
+        description: "Thank you for contacting us. We'll get back to you soon.",
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        service: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -240,10 +269,11 @@ const Contact = () => {
                     <Button 
                       type="submit" 
                       size="lg" 
+                      disabled={isLoading}
                       className="w-full bg-gradient-physio hover:opacity-90 transition-all duration-300 transform hover:scale-105 hover:shadow-lg h-12 group"
                     >
                       <Send size={18} className="mr-2 group-hover:translate-x-1 transition-transform duration-300" />
-                      Send Message
+                      {isLoading ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>
                 </CardContent>

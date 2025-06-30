@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Calendar, Clock, User, Phone, Mail, X, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -11,6 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { saveBooking } from '@/services/firebaseService';
+import { useToast } from '@/hooks/use-toast';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -20,6 +21,8 @@ interface BookingModalProps {
 const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
   const [step, setStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -52,25 +55,44 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Booking submitted:', formData);
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setStep(1);
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        service: '',
-        date: '',
-        time: '',
-        message: ''
+    setIsLoading(true);
+    
+    try {
+      await saveBooking(formData);
+      console.log('Booking submitted:', formData);
+      setIsSubmitted(true);
+      toast({
+        title: "Booking Confirmed!",
+        description: "Your appointment has been successfully booked. We'll contact you shortly.",
       });
-      onClose();
-    }, 3000);
+      
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setStep(1);
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          service: '',
+          date: '',
+          time: '',
+          message: ''
+        });
+        onClose();
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      toast({
+        title: "Error",
+        description: "Failed to book appointment. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const nextStep = () => setStep(step + 1);
@@ -300,8 +322,12 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose }) => {
                 <Button type="button" onClick={prevStep} variant="outline" className="flex-1 h-12">
                   Back
                 </Button>
-                <Button type="submit" className="flex-1 h-12 bg-gradient-physio">
-                  Confirm Booking
+                <Button 
+                  type="submit" 
+                  disabled={isLoading}
+                  className="flex-1 h-12 bg-gradient-physio"
+                >
+                  {isLoading ? 'Booking...' : 'Confirm Booking'}
                 </Button>
               </div>
             </div>
