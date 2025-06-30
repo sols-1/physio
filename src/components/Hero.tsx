@@ -1,109 +1,104 @@
 
-import React from 'react';
-import { ArrowRight, Play, CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, Play, Shield, Clock, Award } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import BackgroundSlideshow from './BackgroundSlideshow';
+import BookingModal from './BookingModal';
 
 const Hero = () => {
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+
   return (
-    <section id="home" className="min-h-screen flex items-center relative overflow-hidden">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-green-50"></div>
-      
-      {/* Floating Elements */}
-      <div className="absolute top-20 right-10 w-32 h-32 bg-physio-blue/10 rounded-full animate-float"></div>
-      <div className="absolute bottom-20 left-10 w-24 h-24 bg-physio-green/10 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
-      
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          
-          {/* Left Content */}
-          <div className="space-y-8 animate-fade-in-up">
-            <div className="space-y-6">
-              <div className="inline-flex items-center px-4 py-2 bg-physio-blue/10 text-physio-blue rounded-full text-sm font-medium">
-                <CheckCircle size={16} className="mr-2" />
-                Expert Care Since 2010
-              </div>
-              
-              <h1 className="text-5xl lg:text-6xl xl:text-7xl font-playfair font-bold leading-tight">
-                Restore Your
-                <span className="text-gradient block">Movement</span>
-                <span className="text-physio-gray">& Health</span>
+    <>
+      <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <BackgroundSlideshow />
+        
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          <div className="max-w-4xl mx-auto">
+            {/* Hero Content */}
+            <div className="animate-fade-in-up">
+              <h1 className="text-5xl md:text-7xl font-playfair font-bold mb-6 leading-tight">
+                Your Journey to{' '}
+                <span className="text-gradient bg-gradient-to-r from-physio-blue to-physio-green bg-clip-text text-transparent">
+                  Complete Healing
+                </span>{' '}
+                Starts Here
               </h1>
               
-              <p className="text-xl text-gray-600 leading-relaxed max-w-lg">
-                Professional physiotherapy services to help you recover from injuries, 
-                manage pain, and optimize your physical wellness with personalized treatment plans.
+              <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Experience world-class physiotherapy with personalized treatment plans, 
+                cutting-edge technology, and compassionate care that gets you back to your best self.
               </p>
-            </div>
 
-            {/* Stats */}
-            <div className="flex items-center space-x-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-physio-blue">500+</div>
-                <div className="text-gray-600 text-sm">Happy Patients</div>
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                <Button 
+                  size="lg" 
+                  onClick={() => setIsBookingOpen(true)}
+                  className="bg-gradient-physio hover:opacity-90 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl text-lg px-8 py-4 group"
+                >
+                  Book Your Consultation
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </Button>
+                
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="border-2 border-white text-gray-700 hover:bg-white hover:text-physio-blue transition-all duration-300 transform hover:scale-105 hover:shadow-xl text-lg px-8 py-4 group backdrop-blur-sm"
+                >
+                  <Play className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                  Watch Our Story
+                </Button>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-physio-green">15+</div>
-                <div className="text-gray-600 text-sm">Years Experience</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-physio-blue">98%</div>
-                <div className="text-gray-600 text-sm">Success Rate</div>
-              </div>
-            </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-gradient-physio hover:opacity-90 transition-all transform hover:scale-105">
-                Book Consultation
-                <ArrowRight size={18} className="ml-2" />
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="border-physio-blue text-physio-blue hover:bg-physio-blue hover:text-white transition-all"
-              >
-                <Play size={18} className="mr-2" />
-                Watch Video
-              </Button>
-            </div>
-          </div>
-
-          {/* Right Content - Hero Image */}
-          <div className="relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
-            <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                alt="Professional physiotherapist helping patient"
-                className="w-full h-[600px] object-cover rounded-3xl shadow-2xl"
-              />
-              
-              {/* Floating Card */}
-              <div className="absolute -bottom-8 -left-8 bg-white p-6 rounded-2xl shadow-xl animate-scale-in" style={{ animationDelay: '0.6s' }}>
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-physio rounded-full flex items-center justify-center">
-                    <CheckCircle className="text-white" size={20} />
+              {/* Trust Indicators */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                <div className="flex items-center justify-center space-x-3 bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                  <div className="w-12 h-12 bg-physio-blue/20 rounded-full flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-physio-blue" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">Licensed Professionals</div>
-                    <div className="text-sm text-gray-600">Certified & Experienced</div>
+                  <div className="text-left">
+                    <div className="font-bold text-lg text-gray-800">15+ Years</div>
+                    <div className="text-sm text-gray-600">Experience</div>
                   </div>
                 </div>
-              </div>
 
-              {/* Floating Stats */}
-              <div className="absolute -top-8 -right-8 bg-white p-4 rounded-xl shadow-lg animate-scale-in" style={{ animationDelay: '0.9s' }}>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-physio-green">24/7</div>
-                  <div className="text-xs text-gray-600">Support</div>
+                <div className="flex items-center justify-center space-x-3 bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                  <div className="w-12 h-12 bg-physio-green/20 rounded-full flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-physio-green" />
+                  </div>
+                  <div className="text-left">
+                    <div className="font-bold text-lg text-gray-800">24/7</div>
+                    <div className="text-sm text-gray-600">Support</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center space-x-3 bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                  <div className="w-12 h-12 bg-physio-teal/20 rounded-full flex items-center justify-center">
+                    <Award className="w-6 h-6 text-physio-teal" />
+                  </div>
+                  <div className="text-left">
+                    <div className="font-bold text-lg text-gray-800">1000+</div>
+                    <div className="text-sm text-gray-600">Happy Patients</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+
+        {/* Floating Animation Elements */}
+        <div className="absolute top-20 left-10 w-4 h-4 bg-physio-blue/30 rounded-full animate-float"></div>
+        <div className="absolute top-40 right-20 w-6 h-6 bg-physio-green/30 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-40 left-20 w-8 h-8 bg-physio-teal/30 rounded-full animate-float" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute bottom-20 right-10 w-3 h-3 bg-physio-blue/30 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
+      </section>
+
+      <BookingModal 
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
+    </>
   );
 };
 

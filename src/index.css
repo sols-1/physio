@@ -108,4 +108,137 @@
   .section-padding {
     @apply py-20 px-4;
   }
+
+  /* Enhanced hover effects */
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-[0_0_30px_rgba(37,99,235,0.3)];
+  }
+
+  .hover-bounce {
+    @apply transition-transform duration-300 hover:animate-bounce;
+  }
+
+  .hover-rotate {
+    @apply transition-transform duration-300 hover:rotate-3;
+  }
+
+  .hover-scale-110 {
+    @apply transition-transform duration-300 hover:scale-110;
+  }
+
+  .hover-gradient {
+    @apply transition-all duration-300 hover:bg-gradient-to-r hover:from-physio-blue hover:to-physio-green;
+  }
+
+  /* Card hover effects */
+  .card-hover {
+    @apply transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl;
+  }
+
+  /* Button hover effects */
+  .btn-hover {
+    @apply transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95;
+  }
+
+  /* Text hover effects */
+  .text-hover {
+    @apply transition-all duration-300 hover:text-physio-blue hover:scale-105;
+  }
+
+  /* Icon hover effects */
+  .icon-hover {
+    @apply transition-all duration-300 hover:scale-125 hover:rotate-12;
+  }
+
+  /* Underline animation */
+  .underline-animate {
+    @apply relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-physio-blue after:transition-all after:duration-300 hover:after:w-full;
+  }
+
+  /* Pulse animation */
+  .pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Breathing animation */
+  .breathe {
+    animation: breathe 4s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* Floating animation */
+  .float-slow {
+    animation: float 8s ease-in-out infinite;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #2563eb, #059669);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #1d4ed8, #047857);
+}
+
+/* Selection color */
+::selection {
+  background: rgba(37, 99, 235, 0.2);
+  color: #1d4ed8;
+}
+
+/* Focus styles */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for all interactive elements */
+a, button, input, select, textarea {
+  transition: all 0.3s ease;
+}
+
+/* Enhanced form styles */
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: rgba(37, 99, 235, 0.5);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Card styles */
+.card {
+  @apply transition-all duration-300 hover:shadow-xl hover:scale-[1.02];
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
 }
