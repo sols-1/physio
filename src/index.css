@@ -85,10 +85,21 @@
 
   body {
     @apply bg-background text-foreground font-inter;
+    /* Prevent horizontal scroll on mobile */
+    overflow-x: hidden;
   }
 
   html {
     scroll-behavior: smooth;
+    /* Prevent horizontal scroll */
+    overflow-x: hidden;
+  }
+
+  /* Mobile-first responsive font sizing */
+  @media (max-width: 640px) {
+    html {
+      font-size: 14px;
+    }
   }
 }
 
@@ -106,7 +117,7 @@
   }
 
   .section-padding {
-    @apply py-20 px-4;
+    @apply py-12 sm:py-16 md:py-20 px-4;
   }
 
   /* Enhanced hover effects */
@@ -135,9 +146,15 @@
     @apply transform transition-all duration-300 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl;
   }
 
-  /* Button hover effects */
+  /* Button hover effects - Disabled on touch devices for better UX */
   .btn-hover {
-    @apply transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95;
+    @apply transition-all duration-300 transform active:scale-95;
+  }
+  
+  @media (hover: hover) {
+    .btn-hover {
+      @apply hover:scale-105 hover:shadow-lg;
+    }
   }
 
   /* Text hover effects */
@@ -153,6 +170,21 @@
   /* Underline animation */
   .underline-animate {
     @apply relative after:content-[''] after:absolute after:w-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-physio-blue after:transition-all after:duration-300 hover:after:w-full;
+  }
+
+  /* Touch-friendly interactions */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(37, 99, 235, 0.1);
+  }
+
+  /* Mobile-optimized spacing */
+  .mobile-padding {
+    @apply px-4 sm:px-6 md:px-8;
+  }
+
+  .mobile-text {
+    @apply text-sm sm:text-base md:text-lg;
   }
 
   /* Pulse animation */
@@ -174,24 +206,35 @@
   .float-slow {
     animation: float 8s ease-in-out infinite;
   }
+
+  /* Mobile-safe animations */
+  @media (prefers-reduced-motion: reduce) {
+    .float-slow,
+    .breathe,
+    .animate-float {
+      animation: none;
+    }
+  }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
+/* Custom scrollbar - Hidden on mobile for native feel */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #2563eb, #059669);
-  border-radius: 4px;
-}
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #2563eb, #059669);
+    border-radius: 4px;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(45deg, #1d4ed8, #047857);
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #1d4ed8, #047857);
+  }
 }
 
 /* Selection color */
@@ -200,7 +243,7 @@
   color: #1d4ed8;
 }
 
-/* Focus styles */
+/* Focus styles - Enhanced for mobile accessibility */
 button:focus,
 input:focus,
 textarea:focus,
@@ -209,17 +252,38 @@ select:focus {
   outline-offset: 2px;
 }
 
+/* Mobile-specific focus styles */
+@media (max-width: 768px) {
+  button:focus,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline-width: 3px;
+    outline-offset: 3px;
+  }
+}
+
 /* Smooth transitions for all interactive elements */
 a, button, input, select, textarea {
   transition: all 0.3s ease;
 }
 
-/* Enhanced form styles */
+/* Enhanced form styles - Mobile optimized */
 input:hover,
 textarea:hover,
 select:hover {
   border-color: rgba(37, 99, 235, 0.5);
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Mobile input improvements */
+@media (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    min-height: 44px; /* Touch target size */
+  }
 }
 
 /* Card styles */
@@ -241,4 +305,11 @@ select:hover {
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
   background-size: 200px 100%;
   animation: shimmer 1.5s infinite;
+}
+
+/* Mobile viewport fix */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
 }
