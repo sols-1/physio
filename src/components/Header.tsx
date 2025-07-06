@@ -1,8 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, Calendar } from 'lucide-react';
+import { Menu, X, Phone, Calendar, Database } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import BookingModal from './BookingModal';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -35,14 +36,14 @@ const Header = () => {
       >
         <div className="container mx-auto px-4 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2 transform hover:scale-105 transition-transform duration-300">
+          <Link to="/" className="flex items-center space-x-2 transform hover:scale-105 transition-transform duration-300">
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-physio rounded-lg flex items-center justify-center hover:shadow-lg transition-shadow duration-300">
               <span className="text-white font-bold text-lg sm:text-xl">P</span>
             </div>
             <span className="text-xl sm:text-2xl font-playfair font-bold text-physio-blue hover:text-physio-green transition-colors duration-300">
               PhysioHeal
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
@@ -60,6 +61,13 @@ const Header = () => {
 
           {/* CTA Buttons - Desktop */}
           <div className="hidden lg:flex items-center space-x-4">
+            <Link 
+              to="/admin"
+              className="flex items-center space-x-2 text-gray-600 hover:text-physio-blue transition-all duration-300 transform hover:scale-105"
+            >
+              <Database size={16} />
+              <span className="font-medium">Admin</span>
+            </Link>
             <a 
               href="tel:+1234567890" 
               className="flex items-center space-x-2 text-physio-blue hover:text-physio-green transition-all duration-300 transform hover:scale-105"
@@ -112,6 +120,14 @@ const Header = () => {
                 </a>
               ))}
               <div className="pt-4 border-t border-gray-200 space-y-3">
+                <Link 
+                  to="/admin"
+                  className="flex items-center space-x-3 text-gray-600 hover:bg-gray-50 rounded-lg p-3 transition-colors text-lg touch-manipulation"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Database size={20} />
+                  <span>Admin Panel</span>
+                </Link>
                 <a 
                   href="tel:+1234567890" 
                   className="flex items-center space-x-3 text-physio-blue hover:bg-gray-50 rounded-lg p-3 transition-colors text-lg touch-manipulation"
